@@ -322,7 +322,7 @@
 	<script>
 		function myFunction(id,name,img) {
 		  img1 = img.split("/");
-		  window.location.href = `http://127.0.0.1:5000/play/${id}/${name}`;
+		  window.location.href = `https://ytmusic-uf.herokuapp.com/play/${id}/${name}`;
 		  console.log(name);
 		}
 	</script>
@@ -332,7 +332,7 @@
 		mySearch.addEventListener("submit", (e) => {
 			e.preventDefault();
 			console.log(document.getElementById("SearchQ").value);
-			window.location.replace(`http://127.0.0.1:5000/search/${document.getElementById("SearchQ").value}`);
+			window.location.replace(`https://ytmusic-uf.herokuapp.com/search/${document.getElementById("SearchQ").value}`);
 			
 		})
 	</script>

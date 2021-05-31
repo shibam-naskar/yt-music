@@ -75,7 +75,7 @@ def search(ser):
 
 @app.route('/play/<string:vid>/<string:vname>')
 def play(vid,vname):
-    url = f"http://127.0.0.1:5000/mp3/{vid}/{vname}"
+    url = f"https://ytmusic-uf.herokuapp.com/mp3/{vid}/{vname}"
     return render_template('song.html',song=url,vname1 =vname)
 
 
