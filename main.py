@@ -22,7 +22,7 @@ app = Flask(__name__)
 
 @app.route('/')
 def hello_world():
-    return render_template('index.html')
+    return "Welcome"
 
 
 @app.route('/youtube-data/<string:n>')
@@ -67,38 +67,6 @@ def mp3Down(s, n):
                             data = fwav.read(1024)
                 return Response(generate(), mimetype="audio/mp3")
 
-
-@app.route('/search/<string:ser>')
-def search(ser):
-
-    return render_template('search.html', search=ser)
-
-@app.route('/play/<string:vid>/<string:vname>')
-def play(vid,vname):
-    url = f"https://ytmusic-uf.herokuapp.com/mp3/{vid}/{vname}"
-    return render_template('song.html',song=url,vname1 =vname)
-
-
-@app.route("/wav")
-def streamwav():
-    def generate():
-        with open("signals/song.mp3", "rb") as fwav:
-            data = fwav.read(1024)
-            while data:
-                yield data
-                data = fwav.read(1024)
-    return Response(generate(), mimetype="audio/mp3")
-
-
-@app.route("/ogg")
-def streamogg():
-    def generate():
-        with open("signals/song.ogg", "rb") as fogg:
-            data = fogg.read(1024)
-            while data:
-                yield data
-                data = fogg.read(1024)
-    return Response(generate(), mimetype="audio/ogg")
 
 
 @app.route('/delete/<string:file>')
