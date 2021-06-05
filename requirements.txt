@@ -3,3 +3,4 @@ youtube-search-python==1.4.5
 gunicorn
 youtube_dl
 ffmpeg
+pafy

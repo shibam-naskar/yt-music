@@ -3,6 +3,7 @@ from flask import Flask, jsonify, send_file, render_template,Response
 import os
 import youtube_dl
 from youtubesearchpython import VideosSearch,Video
+import pafy
 
 
 ydl_opts = {
@@ -34,39 +35,13 @@ def youtubeMusic(n):
     return jsonify(videos1)
 
 
-@app.route('/mp3/<string:s>/<string:n>')
-def mp3Down(s, n):
-    listning = os.walk('.')
-    n1 = ""
-    if(n[-1]=="|"):
-        n1 = n[:-1]
-    else:
-        n1 = n
-    n1 = n1.replace("|", "_")
-    n1 = n1.replace(":"," -")
-    n1 = n1.replace("amp;","")
-    path = str(n1)+"-"+str(s)+".mp3"
-    for root_path, directories, files in listning:
-        if path in files:
-            def generate():
-                with open(path, "rb") as fwav:
-                    data = fwav.read(1024)
-                    while data:
-                        yield data
-                        data = fwav.read(1024)
-            return Response(generate(), mimetype="audio/mp3")
-        else:
-            with youtube_dl.YoutubeDL(ydl_opts) as ydl:
-                ydl.download(['https://www.youtube.com/watch?v={}'.format(s)])
-
-                def generate():
-                    with open(path, "rb") as fwav:
-                        data = fwav.read(1024)
-                        while data:
-                            yield data
-                            data = fwav.read(1024)
-                return Response(generate(), mimetype="audio/mp3")
-
+@app.route('/mp3/<string:s>')
+def mp3Down(s):
+    url=f"https://www.youtube.com/watch?v={s}"
+    video =  pafy.new(url)
+    audiostreams=video.audiostreams
+    # print(audiostreams[3].url)
+    return jsonify(audiostreams[3].url)
 
 
 @app.route('/delete/<string:file>')
