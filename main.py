@@ -16,6 +16,10 @@ ydl_opts = {
 
 }
 
+proxies = {
+    "http":"http://10.10.10.10:8000",
+    "https": "http://10.10.10.10:8000"
+}
 
 
 app = Flask(__name__)
@@ -38,7 +42,7 @@ def youtubeMusic(n):
 @app.route('/mp3/<string:s>')
 def mp3Down(s):
     url=f"https://www.youtube.com/watch?v={s}"
-    video =  pafy.new(url)
+    video =  pafy.new(url,proxies)
     audiostreams=video.audiostreams
     # print(audiostreams[3].url)
     return jsonify(audiostreams[1].url)
