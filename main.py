@@ -45,7 +45,7 @@ def mp3Down(s):
     video =  pafy.new(url,proxies)
     audiostreams=video.audiostreams
     # print(audiostreams[3].url)
-    return jsonify(audiostreams[1].url)
+    return jsonify(audiostreams[0].url)
 
 
 @app.route('/delete/<string:file>')
