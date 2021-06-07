@@ -6,20 +6,9 @@ from youtubesearchpython import VideosSearch,Video
 import pafy
 
 
-ydl_opts = {
-    'format': 'bestaudio/best',
-    'postprocessors': [{
-        'key': 'FFmpegExtractAudio',
-        'preferredcodec': 'mp3',
-        'preferredquality': '192',
-    }],
-
-}
-
-proxies = {
-    "http":"http://10.10.10.10:8000",
-    "https": "http://10.10.10.10:8000"
-}
+ydl = youtube_dl.YoutubeDL({'outtmpl': '%(id)s%(ext)s'})
+# Add all the available extractors
+ydl.add_default_info_extractors()
 
 
 app = Flask(__name__)
@@ -41,11 +30,24 @@ def youtubeMusic(n):
 
 @app.route('/mp3/<string:s>')
 def mp3Down(s):
-    url=f"https://www.youtube.com/watch?v={s}"
-    video =  pafy.new(url,proxies)
-    audiostreams=video.audiostreams
-    # print(audiostreams[3].url)
-    return jsonify(audiostreams[0].url)
+    result = ydl.extract_info(f'https://www.youtube.com/watch?v={s}'
+,   download=False # We just want to extract the info
+    )
+
+    if 'entries' in result:
+    # Can be a playlist or a list of videos
+        Video = result ['entries'] [0]
+    else:
+    # Just a video
+        video = result
+
+
+
+    # url=f"https://www.youtube.com/watch?v={s}"
+    # video =  pafy.new(url)
+    # audiostreams=video.audiostreams
+    # # print(audiostreams[3].url)
+    return jsonify(video['formats'][0]['url'])
 
 
 @app.route('/delete/<string:file>')
