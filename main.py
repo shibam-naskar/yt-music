@@ -19,7 +19,7 @@ def hello_world():
     return "Welcome"
 
 
-@app.route('/youtube-data/<string:n>')
+@app.route('/music-data/shibam-api/<string:n>')
 def youtubeMusic(n):
     videosSearch = VideosSearch(n, limit=20)
 
@@ -28,7 +28,7 @@ def youtubeMusic(n):
     return jsonify(videos1)
 
 
-@app.route('/mp3/<string:s>')
+@app.route('/shibam-api/mp3/<string:s>')
 def mp3Down(s):
     result = ydl.extract_info(f'https://www.youtube.com/watch?v={s}'
 ,   download=False # We just want to extract the info
