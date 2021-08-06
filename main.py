@@ -33,7 +33,7 @@ def youtubeMusic(n):
 def youtubePlaylist(p):
     playlist=PlaylistsSearch(p,limit=1)
     url = playlist.result()['result'][0]['link']
-    playlist_final = Playlist(url)
+    playlist_final = Playlist(url,limit=20)
     return jsonify(playlist_final.videos)
 
 
