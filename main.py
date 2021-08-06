@@ -4,6 +4,8 @@ import os
 import youtube_dl
 from youtubesearchpython import VideosSearch,Video
 import pafy
+from youtubesearchpython.extras import Playlist
+from youtubesearchpython.search import PlaylistsSearch
 
 
 ydl = youtube_dl.YoutubeDL({'outtmpl': '%(id)s%(ext)s'})
@@ -19,13 +21,20 @@ def hello_world():
     return "Welcome"
 
 
-@app.route('/music-data/shibam-api/<string:n>')
+@app.route('/youtube-data/<string:n>')
 def youtubeMusic(n):
     videosSearch = VideosSearch(n, limit=20)
 
     videos = videosSearch.result()
     videos1 = videos['result']
     return jsonify(videos1)
+
+@app.route('/playlist/<string:p>')
+def youtubePlaylist(p):
+    playlist=PlaylistsSearch(p,limit=1)
+    url = playlist.result()['result'][0]['link']
+    playlist_final = Playlist(url)
+    return jsonify(playlist_final.videos)
 
 
 @app.route('/shibam-api/mp3/<string:s>')
